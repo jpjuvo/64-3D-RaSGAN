@@ -11,14 +11,17 @@ In relativistic SGAN (RSGAN), the discriminator is trying to minimize the probab
 By altering the loss functions to the relativistic approach, GAN training is more stable and it should produce better quality samples without additional computational cost.
  
 SGAN (non-saturating) loss functions [Goodfellow et al., 2014]:
+
 ![SGAN loss equations](/img/SGAN-loss-equations.PNG)
 
 RSGAN loss functions [Jolicoeur-Martineau, 2018]:
+
 ![RSGAN loss equations](/img/RSGAN-loss-equations.PNG)
 
 And to make the relativistic discriminator act more globally, we compute the average of the components instead of comparing to single random samples. This is called relativistic average SGAN (RaSGAN).
 
 RaSGAN loss functions [Jolicoeur-Martineau, 2018]:
+
 ![RaSGAN loss equations](/img/RaSGAN-loss-equations.PNG)
 
 The motivation to this work is to test if relativistic approach in GANs give significant improvements in stability and sample quality when generating 3D objects. The relativistic approach is used in 3D object generation method known as 3DGAN [Wu et al., 2016] to see whether it brings stability as complex joint data distributions over 3D objects are hard to train [E. Smith and D. Meger, 2017].
@@ -62,8 +65,10 @@ I learned that it was more stable to begin with modest learning rates and alter 
 | 1200 - 1600 | 0.007 | 0.00003 |
 | 1600 - 3000 | 0.008 | 0.00001 |
 
+
 ![RaSGan chairs - random 2500-2900](/img/random-2500-2900.png)
 Randomly picked from ephocs 2500 - 2900.
+
 
 ![RaSGan chairs - cherry-picked](/img/RaSGan-chair.png)
 Cherry-picked from epochs 2500 - 2900.
@@ -91,8 +96,8 @@ pip3 install wget tqdm matplotlib numpy tensorlayer
 #### 1. Clone this project
 ```
 cd [place_to_clone_this_project]
-git clone https://github.com/jpjuvo/Relativistic-64-3D-GAN.git
-cd Relativistic-64-3D-GAN
+git clone https://github.com/jpjuvo/64-3D-RaSGAN.git
+cd 64-3D-RaSGAN
 ```
 
 #### 2. Download 3D model data for the training.
@@ -115,7 +120,7 @@ python convert_data.py -m ModelNet10/chair -b binvox.exe
 #### 4. Train model with RaSGAN.
 You may also experiment with other GAN architectures that are included in the repository.
 ```
-python 64-3D-RaSGan.py -n chair-1 -d ModelNet10/chair/train -e 5000 -b 24 -sample 10 -save 10 -graph 10 -glr 0.0025 -dlr 0.00001
+python 64-3D-RaSGan.py -n chair-1 -d ModelNet10/chair/train -e 5000 -b 24 -sample 10 -save 10 -graph 10 -glr 0.002 -dlr 0.00005
 ```
 | Arguments | Help        | Example    | Required       |
 | :---------: | ---------- | ------------ | :-------------: |
@@ -150,8 +155,6 @@ python convert_to_graph.py -n chair-1
 #### 5. Convert generated .npy models to .obj format (optional)
 The .obj format is recognized by most 3D software.
 
-![3D render](/img/3D_render_example.png)
-
 ```
 python convert_to_obj.py -f savepoint/chair-1/1000.npy
 ```
@@ -162,6 +165,9 @@ python convert_to_obj.py -f savepoint/chair-1/1000.npy
 
 #### 6. Render .obj model to a .png image (optional)
 This step requires [Blender](https://www.blender.org)
+
+![3D render](/img/3D_render_example.png)
+
 ```
 cd render
 python render_class_view.py -m ../models/1000.obj -o test.png -b "C:/Program Files/Blender Foundation/Blender/blender.exe"
