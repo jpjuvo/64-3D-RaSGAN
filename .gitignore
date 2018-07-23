@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+__MACOSX
+
+# Runs
+savepoint/
+checkpoint/
+models/
+3D_graphs/
+ModelNet40/
+ModelNet10/
+render/__pycache__/
+
+# Renders
+render/test.png
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+
+.exe
