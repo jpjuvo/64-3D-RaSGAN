@@ -17,10 +17,9 @@ render/__pycache__/
 render/test.png
 
 # pyenv
-.python-version
+*.python-version
 
 # Environments
-.env
-.venv
-
-.exe
+*.env
+*.venv
+*.exe

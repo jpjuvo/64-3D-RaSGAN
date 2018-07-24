@@ -57,7 +57,7 @@ def voxel2mesh(voxels, threshold=.3):
     for i,j,k in zip(*positions):
 	#trim based on coordinates
 	#skim off parts from the left and back
-        if(i > 54) or (k > 54):
+        if(i > 64) or (k > 64) or (j > 64):
            continue
         if np.sum(voxels[i-1:i+2,j-1:j+2,k-1:k+2])< 27 : #identifies if current voxels has an exposed face 
             verts.extend(scale * (cube_verts + cube_dist_scale * np.array([[i, j, k]])))

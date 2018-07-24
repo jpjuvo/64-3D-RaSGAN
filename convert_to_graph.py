@@ -44,7 +44,7 @@ def voxel2points(voxels, threshold=.3):
     for i,j,k in zip(*positions):
 	#trim based on coordinates
 	#skim off parts from the left and back
-        if(i > 44) or (k > 44):
+        if(i > 64) or (k > 64) or (j > 64):
            continue
         if np.sum(voxels[i-1:i+2,j-1:j+2,k-1:k+2])< 27 : #identifies if current voxels has an exposed face 
             X.append(i)
@@ -58,7 +58,8 @@ def voxel2graph(filename, pred, threshold=.3):
 	fig = plt.figure()
 	ax = fig.gca(projection='3d')
 	#ax.plot_trisurf(X,Y,Z, linewidth=0.2, antialiased=True)
-	ax.scatter(X, Y, Z, c=Z, cmap=cm.copper, s=25, marker='.')
+	#ax.scatter(X, Y, Z, c=Z, cmap=cm.copper, s=25, marker='.')
+	ax.scatter(X, Y, Z, c=Z, cmap=cm.viridis, s=25, marker='.')
 	if dirRun:
 		plt.savefig(filename, bbox_inches='tight')
 	else:
