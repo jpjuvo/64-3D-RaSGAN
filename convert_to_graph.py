@@ -13,6 +13,7 @@ from matplotlib import cm
 parser = argparse.ArgumentParser(description='Convert voxel files to 3D graph')
 parser.add_argument('-f', '--file', help='File path. Convert single *.npy model file to a 3D scatter plot graph', type=str)
 parser.add_argument('-n', '--name', help='Training run name for saving images from all  model files in that run', type=str)
+parser.add_argument('-c', '--colormap', help='0=copper, 1=viridis, 2=plasma, 3=winter, 4=cool, 5=ocean, 6=inferno, 7=coolwarm', default=1,type=int)
 args = parser.parse_args()
 
 dirRun = True
@@ -28,6 +29,9 @@ else:
 	if not os.path.exists(workDir):
 		print('Could not find ' + workDir)
 		exit(1)
+		
+#Colormap array
+cmaps = [cm.copper, cm.viridis, cm.plasma, cm.winter, cm.cool, cm.ocean, cm.inferno, cm.coolwarm]
 
 def voxel2points(voxels, threshold=.3):
     l, m, n = voxels.shape
@@ -58,14 +62,13 @@ def voxel2graph(filename, pred, threshold=.3):
 	fig = plt.figure()
 	ax = fig.gca(projection='3d')
 	#ax.plot_trisurf(X,Y,Z, linewidth=0.2, antialiased=True)
-	#ax.scatter(X, Y, Z, c=Z, cmap=cm.copper, s=25, marker='.')
-	ax.scatter(X, Y, Z, c=Z, cmap=cm.viridis, s=25, marker='.')
+	ax.scatter(X, Y, Z, c=Z, cmap=cmaps[args.colormap], s=25, marker='.')
 	if dirRun:
 		plt.savefig(filename, bbox_inches='tight')
 	else:
 		plt.savefig(filename, bbox_inches='tight')
 		plt.show()
-		
+	plt.close('all')
 	
 	
 

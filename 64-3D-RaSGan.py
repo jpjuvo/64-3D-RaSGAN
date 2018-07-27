@@ -8,13 +8,15 @@ import random
 import glob
 import argparse
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
 import time
 
 parser = argparse.ArgumentParser(description='3D-GAN implementation for 64*64*64 voxel output')
 parser.add_argument('-n','--name', default='Test', help='The name of the current experiment, this will be used to create folders and save models.')
 parser.add_argument('-d','--data', default='ModelNet10/chair/train', help ='The location of the voxel grid training models. (default=ModelNet10/chair/train)' )
 parser.add_argument('-v','--validation_data', default='', help ='Optional location of the voxel grid validation models. (for example ModelNet10/chair/test)' )
-parser.add_argument('-e','--epochs', default=5000, help ='The number of epochs to run for (default=5000)', type=int)
+parser.add_argument('-e','--epochs', default=2500, help ='The number of epochs to run for (default=2500)', type=int)
 parser.add_argument('-b','--batchsize', default=24, help ='The batch size. (default=24)', type=int)
 parser.add_argument('-sample', default= 10, help='How often generated obejcts are sampled and saved.', type= int)
 parser.add_argument('-save', default= 10, help='How often the network models are saved.', type= int)
@@ -23,10 +25,12 @@ parser.add_argument('-le', '--load_epoch', default= '', help='The epoch to numbe
 parser.add_argument('-graph', default= 10, help='How often the loss graphs are saved.', type= int)
 parser.add_argument('-glr','--generator_learning_rate', default=0.0020, help ='The generator\'s learning rate.', type=float)
 parser.add_argument('-dlr','--discriminator_learning_rate', default=0.00005, help ='The discriminator\'s learning rate.', type=float)
+parser.add_argument('-graph3d', default= 10, help='How often the 3D graphs are saved.', type=int)
 args = parser.parse_args()
 
 checkpoint_dir = "checkpoint/" + args.name +'/'
 save_dir =  "savepoint/" + args.name +'/'
+graph_3d_dir = "savepoint/" + args.name +'/3D_graphs/'
 output_size = 64
 batchSize = args.batchsize
 epsilon = 1e-14
@@ -124,6 +128,33 @@ def discriminator(inputs ,output_size, sig = False, is_train=True, reuse=False, 
 ###########################################
 #################### Utils ################
 ###########################################
+
+def voxel2points(voxels, threshold=.3):
+	l, m, n = voxels.shape
+	X = []
+	Y = []
+	Z = []
+	positions = np.where(voxels > threshold) # recieves position of all voxels
+	offpositions = np.where(voxels < threshold) # recieves position of all voxels
+	voxels[positions] = 1 # sets all voxels values to 1 
+	voxels[offpositions] = 0 
+	
+	for i,j,k in zip(*positions):
+		if np.sum(voxels[i-1:i+2,j-1:j+2,k-1:k+2])< 27 : #identifies if current voxels has an exposed face 
+			X.append(i)
+			Y.append(k)
+			Z.append(j)
+	
+	return np.array(X),np.array(Y),np.array(Z)
+
+def voxel2graph(filename, pred, epoch, threshold=.3):
+	X,Y,Z = voxel2points(pred, threshold)
+	fig = plt.figure()
+	ax = fig.gca(projection='3d')
+	ax.scatter(X, Y, Z, c=Z, cmap=cm.viridis, s=25, marker='.')
+	plt.title('64-3D-RaSGAN [Epoch=%i]' % (epoch))
+	plt.savefig(filename, bbox_inches='tight')
+	plt.close('all')
 
 def make_inputs_raw(file_batch):
 	dt = np.dtype((np.uint8, (64,64,64)))
@@ -256,6 +287,9 @@ if not os.path.exists(checkpoint_dir):
 
 if not os.path.exists(save_dir):
 	os.makedirs(save_dir)
+	
+if not os.path.exists(graph_3d_dir):
+	os.makedirs(graph_3d_dir)
 
 #######################################
 ########### inputs  ###################
@@ -432,6 +466,10 @@ for epoch in range(start, args.epochs):
 	if np.mod(epoch, args.graph) == 0: 
 		render_graphs(save_dir,epoch, track_g_loss, track_d_loss, epoch_arr, track_d_validation_loss) #this will only work after a 50 iterations to allow for proper averaging 
 		save_values(save_dir, track_g_loss, track_d_loss, epoch_arr, track_d_validation_loss)
+	if np.mod(epoch, args.graph3d) == 0:
+		newFile = graph_3d_dir + str(epoch) + '.png'
+		voxel2graph(newFile, objects[batch_index], epoch)
+		
 
 
 
