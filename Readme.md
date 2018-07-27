@@ -106,6 +106,10 @@ However, I cannot fairly compare SGAN to it's relativistic counterparts because 
 
 **Cherry-picked airplanes from epochs 1300 - 1500.**
 
+[![3D printing generated objects](https://img.youtube.com/vi/dpYt7f-oEuA/0.jpg)](https://youtu.be/dpYt7f-oEuA "3D printing generated objects")
+
+Click the above image link to play the video.
+
 ***
 
 # Tutorial
