@@ -1,5 +1,11 @@
 ![RaSGan results - cherry-picked](/img/RaSGan-result.png)
 
+
+## Jump to
+- [**Methods**](#methods)
+- [**Results**](#results)
+- [**Tutorial**](#tutorial)
+
 # Relativistic 3D Generative Adversarial Network: 64-3D-RaSGAN
 
 Jolicoeur-Martineau [2018] showed that by introducing relativistic discriminator to standard generative adversarial network (SGAN), training is more stable and produces higher quality samples in image generation than with non-relativistic SGAN.
@@ -66,32 +72,39 @@ The models were trained with RaSGAN using early stopping. Early stopping was not
 | 0 - 400| 0.0025 |0.00002 |
 | 400 - 2000| 0.0075 | 0.00001 |
 
-### Results
+# Results
 
 Compared to a non saturating standard GAN (SGAN), training RSGAN and RaSGAN was more stable. Relativistic GANs were able to train with broader range of initial learning rates for both generator and for discriminator.
 However, I cannot fairly compare SGAN to it's relativistic counterparts because I did not thoroughly search for good values of SGAN's learning rates.
 
 ![Training](/img/chair-training.gif)
-Training chair
 
-![Training](/img/plane-training.gif)
-Training airplane
+**Training chair**
+
+
+![Training](/img/plane_training.gif)
+
+**Training airplane**
 
 
 ![RaSGan chairs - random 2500-2900](/img/random-2500-2900.png)
-Randomly picked chairs from ephocs 2500 - 2900.
+
+**Randomly picked chairs from ephocs 2500 - 2900.**
 
 
 ![RaSGan chairs - cherry-picked](/img/RaSGan-chair.png)
-Cherry-picked chairs from epochs 2500 - 2900.
+
+**Cherry-picked chairs from epochs 2500 - 2900.**
 
 
 ![RaSGan airplanes - random 1300-1500](/img/random-1300-1500_plane.png)
-Randomly picked airplanes from ephocs 1300 - 1500.
+
+**Randomly picked airplanes from ephocs 1300 - 1500.**
 
 
 ![RaSGan airplanes - cherry-picked](/img/RaSGan-plane.png)
-Cherry-picked airplanes from epochs 1300 - 1500.
+
+**Cherry-picked airplanes from epochs 1300 - 1500.**
 
 ***
 
