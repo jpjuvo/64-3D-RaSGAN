@@ -130,7 +130,7 @@ pip3 install wget tqdm matplotlib numpy tensorlayer==1.9
 
 **Note!** *GPU version of the Tensorflow is the only reasonable option for this tutorial. 3D-GANs of this size would take too long to train on any CPU.*
 
-**Note-2!** This repository works with Tensorflow version 1.7 and Tensorlayer version 1.9. You may run into errors if you use newer versions. Thank you [chenyang1995](https://github.com/chenyang1995) for testing and reporting this!
+**Note-2!** This repository works with Tensorflow version 1.7 and Tensorlayer version 1.9. You may run into errors if you use newer versions. Thank you Sven for testing and reporting this!
 
 ## Steps
 
