@@ -117,18 +117,20 @@ With these steps you can clone this repository and train your own model that pro
 
 ### Requirements
 
-- Python 3.6+
-- [TensorFlow](https://www.tensorflow.org/install/) (GPU version)
+- Python 3.6
+- [TensorFlow](https://www.tensorflow.org/install/) (GPU version) version 1.7!
 - [Patrick Min's Binvox software](http://www.patrickmin.com/binvox/) for converting training data to raw voxel data.
 - [Blender](https://www.blender.org) for rendering generated models to images (optional).
-- Python modules: wget, tqdm, matplotlib, numpy, tensorlayer
+- Python modules: wget, tqdm, matplotlib, numpy, tensorlayer==1.9
 
 If you have pip installed, get these modules with:
 ```
-pip3 install wget tqdm matplotlib numpy tensorlayer
+pip3 install wget tqdm matplotlib numpy tensorlayer==1.9
 ```
 
 **Note!** *GPU version of the Tensorflow is the only reasonable option for this tutorial. 3D-GANs of this size would take too long to train on any CPU.*
+
+**Note-2!** This repository works with Tensorflow version 1.7 and Tensorlayer version 1.9. You may run into errors if you use newer versions. Thank you [chenyang1995](https://github.com/chenyang1995) for testing and reporting this!
 
 ## Steps
 
